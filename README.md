@@ -1,5 +1,4 @@
 # SportsShoesBrand
-
 Flujo ETL
 
     Extract
