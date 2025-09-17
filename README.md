@@ -5,22 +5,32 @@
 
 # Estructura
 
-ETL-Brands/
-│── Config/
-│   └── config.py
+├── Config/ # Configuración general del proyecto
+│ ├── config.py
+│ └── init.py
 │
-│── Extract/
-│   └── extract.py
+├── Extract/ # Extracción de datos
+│ ├── extract.py
+│ └── init.py
 │
-│── Transform/
-│   └── transform.py
+├── Load/ # Carga de datos a la base de datos
+│ └── load.py
 │
-│── Load/
-│   └── load.py
+├── Plots/ # Carpeta destinada a guardar gráficas generadas
 │
-│── brands.csv          # Dataset original
-│── main.py             # Script principal
-│── README.md           # Documentación
+├── Transform/ # Transformación y limpieza de datos
+│ ├── transform.py
+│ └── init.py
+│
+├── Visualize/ # Scripts para visualización de datos
+│ ├── graficas.py
+│ └── init.py
+│
+├── brands.csv # Dataset original
+├── brands_clean.csv # Dataset limpio después de la transformación
+├── brands_clean.db # Base de datos SQLite con la información procesada
+├── main.py # Script principal para ejecutar el pipeline ETL
+└── README.md # Documentación del proyecto
 
 
 
