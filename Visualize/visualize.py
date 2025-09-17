@@ -1,49 +1,50 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
+import os
+
 
 def plot_data(df):
-    """Genera algunas gráficas básicas con Seaborn"""
+    """Genera gráficas básicas con Seaborn y las guarda en /Plots"""
+
     if df is None or df.empty:
-        print("⚠️ No hay datos para graficar.")
+        print("❌ No hay datos para graficar.")
         return
 
-    # Ajustar estilo
+    # Crear carpeta de salida si no existe
+    os.makedirs("Plots", exist_ok=True)
+
     sns.set(style="whitegrid")
 
-    # 1. Conteo de marcas por sitio (si existe columna 'sitio')
+    # 1. Conteo de registros por columna 'sitio'
     if "sitio" in df.columns:
-        plt.figure(figsize=(10, 5))
-        sns.countplot(data=df, x="sitio", order=df["sitio"].value_counts().index)
+        plt.figure(figsize=(8,5))
+        sns.countplot(data=df, x="sitio", order=df["sitio"].value_counts().index[:10])
+        plt.title("Top 10 Sitios más frecuentes")
         plt.xticks(rotation=45)
-        plt.title("Número de marcas por sitio")
         plt.tight_layout()
+        plt.savefig("Plots/top_sitios.png")  # guardar primero
         plt.show()
 
-    # 2. Distribución de seguidores de Twitter (si existe columna 'seguidores de twitter')
+    # 2. Distribución de seguidores de Twitter
     if "seguidores de twitter" in df.columns:
-        plt.figure(figsize=(8, 5))
-        sns.histplot(df["seguidores de twitter"], bins=20, kde=True)
-        plt.title("Distribución de seguidores en Twitter")
-        plt.xlabel("Seguidores de Twitter")
+        plt.figure(figsize=(8,5))
+        sns.histplot(df["seguidores de twitter"], bins=30, kde=True)
+        plt.title("Distribución de Seguidores en Twitter")
+        plt.xlabel("Seguidores")
         plt.ylabel("Frecuencia")
         plt.tight_layout()
+        plt.savefig("Plots/distribucion_seguidores.png")
         plt.show()
 
-    # 3. Relación entre seguidores y tuits (si existen ambas columnas)
+    # 3. Relación entre tuits y seguidores
     if "seguidores de twitter" in df.columns and "tuits de twitter" in df.columns:
-        plt.figure(figsize=(7, 5))
-        sns.scatterplot(
-            data=df,
-            x="seguidores de twitter",
-            y="tuits de twitter",
-            hue="sitio" if "sitio" in df.columns else None,
-            alpha=0.7
-        )
-        plt.title("Relación entre seguidores y tuits")
+        plt.figure(figsize=(8,5))
+        sns.scatterplot(data=df, x="tuits de twitter", y="seguidores de twitter", alpha=0.6)
+        plt.title("Relación entre Tuits y Seguidores en Twitter")
+        plt.xlabel("Número de Tuits")
+        plt.ylabel("Seguidores")
         plt.tight_layout()
+        plt.savefig("Plots/relacion_tuits_seguidores.png")
         plt.show()
 
-        plt.tight_layout()
-        plt.savefig("plots/marcas_por_sitio.png")   # guarda la figura
-        plt.close()  # cierra la figura para no saturar memoria
-
+    print("✅ Gráficas guardadas en carpeta: Plots/")

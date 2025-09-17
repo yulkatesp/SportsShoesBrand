@@ -15,12 +15,14 @@ def main():
         print("\n👀 Vista previa de los datos limpios:")
         print(df_clean.head())
 
-    # 3. Cargar
-    load_data(df_clean)
+        # 3. Visualización (usar df_clean, no df)
+        print("\n📊 Generando visualizaciones...")
+        plot_data(df_clean)
 
-    # Mostrar gráfica
-    plot_data(df_clean)
-
+        # 4. Cargar
+        load_data(df_clean)
+    else:
+        print("❌ No se pudo transformar el DataFrame.")
 
 if __name__ == "__main__":
     main()
