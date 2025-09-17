@@ -1,50 +1,38 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
-import os
+import pandas as pd
 
+# Cargar datos
+df = pd.read_csv("brands.csv")
 
-def plot_data(df):
-    """Genera gráficas básicas con Seaborn y las guarda en /Plots"""
+# Gráfico de barras — Comparación seguidores de Twitter y Facebook
+plt.figure(figsize=(12,6))
+sns.barplot(x="name", y="twitter", data=df, color="skyblue", label="Twitter")
+sns.barplot(x="name", y="facebook", data=df, color="salmon", alpha=0.7, label="Facebook")
+plt.title("Seguidores en Twitter vs Facebook por Marca", fontsize=14, weight="bold")
+plt.xticks(rotation=90)
+plt.ylabel("Número de Seguidores")
+plt.legend()
+plt.tight_layout()
+plt.show()
 
-    if df is None or df.empty:
-        print("❌ No hay datos para graficar.")
-        return
+#Gráfico de dispersión — Relación entre seguidores y seguidos en Twitter
 
-    # Crear carpeta de salida si no existe
-    os.makedirs("Plots", exist_ok=True)
+plt.figure(figsize=(8,6))
+sns.scatterplot(data=df, x="twitter_following", y="twitter_followers", hue="name", s=100)
+plt.title("Relación: Seguidos vs Seguidores en Twitter", fontsize=14, weight="bold")
+plt.xlabel("Siguiendo en Twitter")
+plt.ylabel("Seguidores en Twitter")
+plt.legend(bbox_to_anchor=(1.05,1), loc="upper left")
+plt.tight_layout()
+plt.show()
 
-    sns.set(style="whitegrid")
+#Histograma — Distribución de seguidores en Twitter
 
-    # 1. Conteo de registros por columna 'sitio'
-    if "sitio" in df.columns:
-        plt.figure(figsize=(8,5))
-        sns.countplot(data=df, x="sitio", order=df["sitio"].value_counts().index[:10])
-        plt.title("Top 10 Sitios más frecuentes")
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-        plt.savefig("Plots/top_sitios.png")  # guardar primero
-        plt.show()
-
-    # 2. Distribución de seguidores de Twitter
-    if "seguidores de twitter" in df.columns:
-        plt.figure(figsize=(8,5))
-        sns.histplot(df["seguidores de twitter"], bins=30, kde=True)
-        plt.title("Distribución de Seguidores en Twitter")
-        plt.xlabel("Seguidores")
-        plt.ylabel("Frecuencia")
-        plt.tight_layout()
-        plt.savefig("Plots/distribucion_seguidores.png")
-        plt.show()
-
-    # 3. Relación entre tuits y seguidores
-    if "seguidores de twitter" in df.columns and "tuits de twitter" in df.columns:
-        plt.figure(figsize=(8,5))
-        sns.scatterplot(data=df, x="tuits de twitter", y="seguidores de twitter", alpha=0.6)
-        plt.title("Relación entre Tuits y Seguidores en Twitter")
-        plt.xlabel("Número de Tuits")
-        plt.ylabel("Seguidores")
-        plt.tight_layout()
-        plt.savefig("Plots/relacion_tuits_seguidores.png")
-        plt.show()
-
-    print("✅ Gráficas guardadas en carpeta: Plots/")
+plt.figure(figsize=(10,6))
+sns.histplot(df["twitter_followers"], bins=15, kde=True, color="purple")
+plt.title("Distribución de Seguidores en Twitter", fontsize=14, weight="bold")
+plt.xlabel("Cantidad de Seguidores")
+plt.ylabel("Frecuencia")
+plt.tight_layout()
+plt.show()
