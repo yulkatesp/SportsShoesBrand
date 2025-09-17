@@ -78,12 +78,5 @@
     - **develop** → rama de integración, aquí se juntan nuevas features. -> git config --get branch.develop.description
     - **feature/etl** → desarrollo del pipeline ETL con Pandas y SQLite. -> git config --get branch.feature/etl.description
 
-# Resultados
-
- 👀 Vista previa de los datos limpios:
-        nombre     sitio    wikipedia seguidores_twitter
-    0  Marca X      www.x.com   Desconocido   12000
-    1  Marca Y      www.y.com   es.wikipedia   54000
-    ...
 
 
